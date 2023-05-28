@@ -6,9 +6,11 @@ import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import Alert from './components/Alert';
 
-
-
-
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 
 function App() {
   const toggleMode = () => {
@@ -48,7 +50,7 @@ function App() {
 
     return (
       <>
-           {/* <Router> */}
+             <Router>
         <Navbar
           title="TexteUtils"
           aboutText="About TextUtils"
@@ -58,12 +60,21 @@ function App() {
         />
         <Alert alert={alert} />
         <div className="container my-3">
-                 <TextForm
-                  heading="enter the text to analyze"
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <TextForm
+                  heading="TextUtils - Word Counter, Character Counter, Remove Extra Spaces"
                   showAlert={showAlert}
-                  mode={mode}/> 
+                  mode={mode}
+                />
+              }
+            />
+            <Route path="/about" element={<About mode={mode} abttext='About Me'/>} />
+          </Routes>
         </div>
-        <About abttext='About Me' mode={mode}/>
+      </Router>
       </>
     );
 }
