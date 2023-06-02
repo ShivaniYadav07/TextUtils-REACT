@@ -41,6 +41,11 @@ export default function TextForm(props) {
         setText('');
         props.showAlert("Text has been Cleared", "success");
     }
+    const handleExtraLines = () => {
+        let lines = text.split("\n").filter((e) => {return e.length!==0});
+        let newText = lines.join("\n");
+        setText(newText);
+      }
 
     const handleSpeakClick =() => {
         let newText = new SpeechSynthesisUtterance();
@@ -63,21 +68,26 @@ export default function TextForm(props) {
         <div className='container' style={{color: props.mode === 'dark'? 'white' : 'black'}}>
             <h1>{props.heading}</h1>
             <div className="mb-3">
-                <textarea className="form-control" value={text} onChange={handleOnChange} id="myBox" rows="8" style={{background: props.mode === 'dark'? '#13466e' : 'white', color: props.mode === 'dark'? 'white' : 'black'}}></textarea>
+                <textarea className="form-control" value={text} onChange={handleOnChange} placeholder='Write something here'  id="myBox" rows="8" style={{background: props.mode === 'dark'? '#13466e' : 'white', color: props.mode === 'dark'? 'white' : 'black'}}></textarea>
             </div>
             <button disabled={text.length===0} className='btn btn-primary mx-2 my-2' onClick={handleUpClick}>Conver to UpperCase</button>
             <button disabled={text.length===0}className='btn btn-primary mx-2 my-2' onClick={handleLoClick}>Conver to LowerCase</button>
             <button disabled={text.length===0}className='btn btn-primary mx-2 my-2' onClick={handleReClick}>Remove Extra Space</button>
+            <button disabled={text.length===0} className="btn btn-primary mx-2 my-2" onClick={handleExtraLines}>Remove Extra Lines</button>
             <button disabled={text.length===0}className='btn btn-primary mx-2 my-2' onClick={handleCopyClick}>Copy Text</button>
-            <button disabled={text.length===0}className='btn btn-primary mx-2 my-2' onClick={handleClearClick}>Clear Text</button>
             <button disabled={text.length===0}className='btn btn-primary mx-2 my-2' onClick={handleSpeakClick} >Speak</button>
+            <button disabled={text.length===0}className='btn btn-primary mx-2 my-2' onClick={handleClearClick}>Clear Text</button>
         </div>
 
-        <div className='container my-5' style={{color: props.mode === 'dark'? 'white' : 'black'}}>
-            <p>{count()} Words and {text.replace(/\s/g, '').length} Characters</p>
-            <p>{0.008 * text.split("").length} Minutes to Read</p>
-            <h3>Preview</h3>
-            <p>{text.length>0 ? text : "Nothing to Preview "}</p>
+        <div className='container my-4' style={{color: props.mode === 'dark'? 'white' : 'black'}}>
+            <h3>Your Text Summary</h3>
+             <p> <strong>"Words Count" : </strong>{count()}  </p>
+            <p> <strong> "Characters Count" : </strong> {text.replace(/\s/g, '').length} </p>
+            <p> <strong>"Reading Time" : </strong> {0.001 * text.split("").length} </p>
+            <h3 className='my-4'>Preview</h3>
+            
+            <textarea className="form-control my-4" id="myBox" rows="2" onChange={handleOnChange} value= {text.length > 0 ? text : "Nothing to Preview"}  style={{background: props.mode === 'dark'? '#13466e' : 'white', color: props.mode === 'dark'? 'white' : 'black'}}>{text.length>0?text:"Nothing to preview"}</textarea>
+
 
 
         </div>
